@@ -1,0 +1,78 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /chatgpt-api
+spring:
+  application:
+    name: chatgpt-api
+  datasource:
+    url: jdbc:mysql://gz-cynosdbmysql-grp-ca3b66ep.sql.tencentcdb.com:26865/chatgpt-api?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root  # 数据库账号
+    password: Mysql@password # 数据库密码
+    # HikariCP 自定义配置，对应 HikariConfig 配置属性类
+    hikari:
+      minimum-idle: 10 # 池中维护的最小空闲连接数，默认为 10 个。
+      maximum-pool-size: 10 # 池中最大连接数，包括闲置和使用中的连接，默认为 10 个。
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      ttl: 24 # 过期时间 单位小时
+  security:
+    ignore-paths:
+      - /doc.html
+      - /swagger-resources/*
+      - /configuration/*
+      - /swagger-ui/*
+      - /webjars/**
+      - /v3/**
+      - /favicon.ico
+      - /*/*.css,
+      - /*/*.js,
+      - /*/*.png,
+      - /*/*.gif,
+      - /*/*.ttf
+      - /auth/**
+
+# actuator 监控栈点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' # 暴露所有端点
+springdoc:
+  swagger-ui:
+    path: swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - icu.didi.chatgpt.api.start.business # 业务扫描
+        - icu.didi.chatgpt.api.start.common.dto #通用对象
+        - icu.didi.chatgpt.api.start.serialize # 序列化
+  default-flat-param-object: true
+knife4j:
+  enable: true #是否开启Knife4j增强模式
+  setting:
+    swagger-model-name: 接口入参对象说明 #文档名称
+
+
+jwt:
+  key: yxbsa#10xb@7m!
+# Mybatisplus配置
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: disable # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+logging:
+  level:
+    root: info
+#gh_f7c42c5c40b8
+#wxf6ca0752bc7fcc94
+#A182379C7BE2596F273F665CDD248C75
+#RBk59uEsEhHa52sohL52uvnCIJK6a3aq8GJOn0HYLsh
